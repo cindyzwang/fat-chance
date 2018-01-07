@@ -28,11 +28,11 @@ int main() {
 }
 
 bool pick_2() {
-    Box boxes[] = { Box(true, true), Box(true, false), Box(false, false) };
     bool is_c1_gold = false;
     bool is_c2_gold = false;
 
     while (!is_c1_gold) {
+        Box boxes[] = { Box(true, true), Box(true, false), Box(false, false) };
         int i = std::rand() % 3;
         is_c1_gold = boxes[i].pick_coin();
         if (is_c1_gold) {
