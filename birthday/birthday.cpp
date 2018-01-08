@@ -3,40 +3,41 @@
 #include <time.h>
 #include <set>
 
-int survey_room();
+bool collides(int);
 
 int main() {
     std::srand(time(0));
 
-    int iterations;
+    int iterations, num_people;
     std::cout << "Iterations (N): ";
     std::cin >> iterations;
+    std::cout << "Number of people: ";
+    std::cin >> num_people;
 
-    int sum = 0;
+    int num_collisions = 0;
     for (int i = 0; i < iterations; i++) {
-        sum += survey_room();
+        if (collides(num_people)) {
+            num_collisions++;
+        }
     }
-    int average = sum / iterations;
-    std::cout << "Surveyed an average of " << average << " people to find a shared birthday" << std::endl;
+    float p = num_collisions / float(iterations) * 100;
+
+    std::cout << "Chance of birthday collision: " << p << "%" << std::endl;
     return 0;
 }
 
-int survey_room() {
-    // survey a room full of people, return how many people surveyed before
-    // you find 2 people who share a birthday
-
+bool collides(int num) {
+    // survey num people. return true if you get a birthday collision
     std::set<int> birthdays;
     bool found = false;
-    int count = 0;
-    while (!found) {
+    for (int i = 0; i < num; i++) {
         int birthday = rand() % 365;
         std::set<int>::iterator it = birthdays.find(birthday);
         if (it == birthdays.end()) {
             birthdays.insert(birthday);
-            count++;
         } else {
-            found = true;
+            return true;
         }
     }
-    return count;
-}
+    return false;
+} 
